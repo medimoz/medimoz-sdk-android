@@ -1,0 +1,4 @@
+include ':medimoz-sdk'
+
+include ':ooyala-basic-playback'
+project(':ooyala-basic-playback').projectDir = new File(settingsDir, './example-apps/ooyala-basic-playback/app')

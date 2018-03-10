@@ -1,0 +1,5 @@
+-keep class timber.log.** { *; }
+-keep class org.piwik.sdk.** { *; }
+-keep class com.ooyala.** { *; }
+-keep class java.util.** { *; }
+-keep class android.** { *; }

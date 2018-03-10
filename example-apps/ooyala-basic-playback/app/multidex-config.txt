@@ -1,0 +1,6 @@
+timber/log/Timber.class
+org/piwik/sdk/Tracker.class
+org/piwik/sdk/extra/TrackerHelper.class
+org/piwik/sdk/Tracker.class
+com/ooyala/sample/players/AbstractHookActivity.class
+com/ooyala/sample/lists/BasicPlaybackListActivity.class
