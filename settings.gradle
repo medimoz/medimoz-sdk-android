@@ -2,3 +2,6 @@ include ':medimoz-sdk'
 
 include ':ooyala-basic-playback'
 project(':ooyala-basic-playback').projectDir = new File(settingsDir, './example-apps/ooyala-basic-playback/app')
+
+include ':exoplayer2-demo'
+project(':exoplayer2-demo').projectDir = new File(settingsDir, './example-apps/exoplayer2-demo/app')
