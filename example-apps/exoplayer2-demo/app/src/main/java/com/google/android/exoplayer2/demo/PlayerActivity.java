@@ -33,6 +33,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.C.ContentType;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
@@ -83,12 +84,15 @@ import com.google.android.exoplayer2.upstream.HttpDataSource;
 import com.google.android.exoplayer2.util.ErrorMessageProvider;
 import com.google.android.exoplayer2.util.EventLogger;
 import com.google.android.exoplayer2.util.Util;
+
 import java.lang.reflect.Constructor;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.util.List;
 import java.util.UUID;
+
+import medimoz.sdk.MZEvents;
 
 /** An activity that plays media using {@link SimpleExoPlayer}. */
 public class PlayerActivity extends Activity
@@ -125,6 +129,7 @@ public class PlayerActivity extends Activity
 
   private static final DefaultBandwidthMeter BANDWIDTH_METER = new DefaultBandwidthMeter();
   private static final CookieManager DEFAULT_COOKIE_MANAGER;
+
   static {
     DEFAULT_COOKIE_MANAGER = new CookieManager();
     DEFAULT_COOKIE_MANAGER.setCookiePolicy(CookiePolicy.ACCEPT_ORIGINAL_SERVER);
@@ -152,6 +157,11 @@ public class PlayerActivity extends Activity
   private AdsLoader adsLoader;
   private Uri loadedAdTagUri;
   private ViewGroup adUiViewGroup;
+
+
+  // Referencia al tracker Medimoz
+  private MZEvents medimoz;
+
 
   // Activity lifecycle
 
@@ -183,6 +193,12 @@ public class PlayerActivity extends Activity
       trackSelectorParameters = new DefaultTrackSelector.ParametersBuilder().build();
       clearStartPosition();
     }
+
+
+    // Medimoz
+    if (null != medimoz) {
+      medimoz.timerClear();
+    }
   }
 
   @Override
@@ -207,6 +223,12 @@ public class PlayerActivity extends Activity
     if (Util.SDK_INT <= 23 || player == null) {
       initializePlayer();
     }
+
+
+    // Medimoz
+    if (null != medimoz) {
+      medimoz.timerClear();
+    }
   }
 
   @Override
@@ -215,6 +237,12 @@ public class PlayerActivity extends Activity
     if (Util.SDK_INT <= 23) {
       releasePlayer();
     }
+
+
+    // Medimoz
+    if (null != medimoz) {
+      medimoz.timerClear();
+    }
   }
 
   @Override
@@ -222,6 +250,12 @@ public class PlayerActivity extends Activity
     super.onStop();
     if (Util.SDK_INT > 23) {
       releasePlayer();
+    }
+
+
+    // Medimoz
+    if (null != medimoz) {
+      medimoz.timerClear();
     }
   }
 
@@ -396,6 +430,12 @@ public class PlayerActivity extends Activity
       player =
           ExoPlayerFactory.newSimpleInstance(renderersFactory, trackSelector, drmSessionManager);
       player.addListener(new PlayerEventListener());
+
+
+      // Enlaza al player con la medición
+      medimoz = ((DemoApplication) getApplication()).getMedimoz();
+      player.addListener(new MedimozEventsListener(this.medimoz));
+
       player.setPlayWhenReady(startAutoPlay);
       player.addAnalyticsListener(new EventLogger(trackSelector));
       playerView.setPlayer(player);

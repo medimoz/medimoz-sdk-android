@@ -37,6 +37,8 @@ import com.google.android.exoplayer2.upstream.cache.SimpleCache;
 import com.google.android.exoplayer2.util.Util;
 import java.io.File;
 
+import medimoz.sdk.MZEvents;
+
 /**
  * Placeholder application to facilitate overriding Application methods for debugging and testing.
  */
@@ -60,6 +62,21 @@ public class DemoApplication extends Application {
   private Cache downloadCache;
   private DownloadManager downloadManager;
   private DownloadTracker downloadTracker;
+
+
+  // Tracking para Medimoz
+  protected MZEvents medimoz;
+  protected String MEDIMOZ_TRACKING_URL = "https://log.medimoz.com/piwik.php";
+  protected int MEDIMOZ_TRACKING_SITEID = 19;
+
+  public synchronized MZEvents getMedimoz() {
+    if (medimoz == null) {
+      medimoz = new MZEvents(MEDIMOZ_TRACKING_SITEID, MEDIMOZ_TRACKING_URL, this);
+    }
+    return medimoz;
+  }
+  // Fin Tracking para Medimoz
+
 
   @Override
   public void onCreate() {
