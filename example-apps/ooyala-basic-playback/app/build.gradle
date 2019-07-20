@@ -9,12 +9,12 @@ android {
 //            storePassword 'qwerty'
 //        }
 //    }
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "com.ooyala.sample.BasicPlaybackSampleApp"
         minSdkVersion 19
-        targetSdkVersion 27
+        targetSdkVersion 28
         multiDexEnabled true
         //multiDexKeepFile file('multidex-config.txt')
         multiDexKeepProguard file('multidex-config.pro')
@@ -54,19 +54,19 @@ task copyTask(type: Copy) {
     doLast {
         println "Jars updated."
     }
+    dependsOn 'build'
 }
-
-tasks.copyTask.execute()
+//tasks.copyTask.execute()
 
 dependencies {
     // For development purposes only
     //    compile project(':core')
     implementation files('libs/OoyalaSDK.jar')
     implementation 'com.google.android.exoplayer:exoplayer:r2.5.3'
-    implementation 'com.android.support:support-v4:27.1.0'
-    implementation 'com.android.support:appcompat-v7:27.1.0'
+    implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.google.android.gms:play-services-ads:10.0.1'
     implementation 'com.android.support:multidex:1.0.1'
 
-    compile project(':medimoz-sdk')
+    implementation project(':medimoz-sdk')
 }

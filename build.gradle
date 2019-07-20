@@ -8,9 +8,10 @@ buildscript {
             url 'https://maven.google.com/'
             name 'Google'
         }
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:3.4.2'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
         classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.4.0x'
@@ -27,10 +28,10 @@ allprojects {
     }
     ext {
         globalMinSdkVersion = 19
-        globalTargetSdkVersion = 27
-        globalCompileSdkVersion = 27
-        globalBuildToolsVersion = '27.0.1'
-        supportLibVersion = '27.0.1'
+        globalTargetSdkVersion = 28
+        globalCompileSdkVersion = 28
+        globalBuildToolsVersion = '28.0.3'
+        supportLibVersion = '28.0.3'
         timberVersion = '4.6.0'
     }
 }
