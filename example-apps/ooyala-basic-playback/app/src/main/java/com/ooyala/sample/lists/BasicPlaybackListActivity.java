@@ -10,11 +10,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.ooyala.sample.R;
+import com.ooyala.sample.SampleApplication;
 import com.ooyala.sample.players.BasicPlaybackVideoPlayerActivity;
 import com.ooyala.sample.utils.PlayerSelectionOption;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import medimoz.sdk.MZEvents;
 
 public class BasicPlaybackListActivity extends Activity implements OnItemClickListener {
     public final static String getName() {
@@ -23,6 +26,7 @@ public class BasicPlaybackListActivity extends Activity implements OnItemClickLi
 
     private static Map<String, PlayerSelectionOption> selectionMap;
     ArrayAdapter<String> selectionAdapter;
+    MZEvents medimoz;
 
     /**
      * Called when the activity is first created.
@@ -60,6 +64,9 @@ public class BasicPlaybackListActivity extends Activity implements OnItemClickLi
         ListView selectionListView = (ListView) findViewById(R.id.mainActivityListView);
         selectionListView.setAdapter(selectionAdapter);
         selectionListView.setOnItemClickListener(this);
+
+        // Retrieves the tracking component instance
+        medimoz = ((SampleApplication) getApplication()).getMedimoz();
     }
 
     @Override
@@ -74,6 +81,15 @@ public class BasicPlaybackListActivity extends Activity implements OnItemClickLi
         intent.putExtra("pcode", selection.getPcode());
         intent.putExtra("domain", selection.getDomain());
         intent.putExtra("selection_name", selectionAdapter.getItem(pos));
+
+
+        // Example: Changing the Site ID according to the video content
+        if(selection.getEmbedCode().equals("h4aHB1ZDqV7hbmLEv4xSOx3FdUUuephx")) { // MP4 Video
+            medimoz.changeSiteId(SampleApplication.MEDIMOZ_SECONDARY_SITEID);
+        } else {
+            medimoz.changeSiteId(SampleApplication.MEDIMOZ_MAIN_SITEID);
+        }
+
         startActivity(intent);
         return;
     }

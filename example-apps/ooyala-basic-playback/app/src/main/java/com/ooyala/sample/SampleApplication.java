@@ -12,14 +12,22 @@ public class SampleApplication extends Application {
 
     protected MZEvents medimoz;
     protected String MEDIMOZ_TRACKING_URL = "https://log.medimoz.com/mz";
-    protected int MEDIMOZ_TRACKING_SITEID = 1;
+    public static final int MEDIMOZ_MAIN_SITEID = 1;
+    public static final int MEDIMOZ_SECONDARY_SITEID = 25;
 
+
+    /**
+     * Initializes and returns the tracking components.
+     *
+     * @return tracking component handle
+     */
     public synchronized MZEvents getMedimoz() {
         if (medimoz == null) {
-            medimoz = new MZEvents(MEDIMOZ_TRACKING_SITEID, MEDIMOZ_TRACKING_URL, this);
+            medimoz = new MZEvents(MEDIMOZ_MAIN_SITEID, MEDIMOZ_TRACKING_URL, this);
         }
         return medimoz;
     }
+
 
     @Override
     protected void attachBaseContext(Context base) {

@@ -38,7 +38,9 @@ public abstract class AbstractHookActivity extends Activity implements Observer 
     protected OoyalaPlayerLayoutController playerLayoutController;
     protected OoyalaPlayerLayout playerLayout;
 
+    // Handle to the player instance
     OoyalaPlayer player;
+    // Handle to the tracking component
     MZEvents medimoz;
 
     private boolean writePermission = false;
@@ -62,6 +64,7 @@ public abstract class AbstractHookActivity extends Activity implements Observer 
         pcode = getIntent().getExtras().getString("pcode");
         domain = getIntent().getExtras().getString("domain");
 
+        // Medimoz: Life cycle linking
         if (null != medimoz) {
             medimoz.timerClear();
         }
@@ -84,6 +87,8 @@ public abstract class AbstractHookActivity extends Activity implements Observer 
         if (null != player) {
             player.suspend();
         }
+
+        // Medimoz: Life cycle linking
         if (null != medimoz) {
             medimoz.timerClear();
         }
@@ -95,6 +100,8 @@ public abstract class AbstractHookActivity extends Activity implements Observer 
         if (null != player) {
             player.resume();
         }
+
+        // Medimoz: Life cycle linking
         if (null != medimoz) {
             medimoz.timerClear();
         }
@@ -102,6 +109,8 @@ public abstract class AbstractHookActivity extends Activity implements Observer 
 
     @Override
     public void update(Observable o, Object arg) {
+        // Medimoz: Life cycle linking
+        // Listens to the video events in the player
         final String arg1 = OoyalaNotification.getNameOrUnknown(arg);
         if (arg1.equals(OoyalaPlayer.TIME_CHANGED_NOTIFICATION_NAME)) {
             return;
@@ -110,7 +119,6 @@ public abstract class AbstractHookActivity extends Activity implements Observer 
         String text = "ooyala Notification Received: " + arg1 + " - state: " + player.getState();
         Log.d(TAG, text);
 
-        //MZEvents medimoz = ((SampleApplication) getApplication()).getMedimoz();
         if (null != medimoz && arg1.equals(OoyalaPlayer.STATE_CHANGED_NOTIFICATION_NAME)) {
             OoyalaPlayer.State currentState = player.getState();
             switch (currentState) {

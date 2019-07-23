@@ -37,6 +37,8 @@ public class BasicPlaybackVideoPlayerActivity extends AbstractHookActivity {
             } else {
                 Log.e(TAG, "Asset Failure");
             }
+
+            // Handle to the tracking component
             medimoz = ((SampleApplication) getApplication()).getMedimoz();
         }
     }
